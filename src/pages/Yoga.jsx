@@ -10,115 +10,117 @@ const Yoga = () => {
     {
       title: "Cat-Cow Pose (Marjaryasana-Bitilasana)",
       image: yoga4,
-      duration: "30 seconds",
-      time: 30, // Time in seconds
+      description: "Hold for 30 seconds",
+      duration: 30, // Time in seconds
     },
     {
       title: "Knees-to-Chest Pose (Apanasana)",
       image: yoga5,
-      duration: "45 seconds",
-      time: 45,
+      description: "Hold for 45 seconds",
+      duration: 45,
     },
     {
       title: "Plank Pose (Phalakasana)",
       image: yoga6,
-      duration: "30 seconds on each side",
-      time: 30,
+      description: "Hold for 30 seconds on each side",
+      duration: 30,
     },
     {
       title: "Plank Pose (Kumbhakasana)",
       image: yoga7,
-      duration: "30 seconds on each leg",
-      time: 30,
+      description: "Hold for 30 seconds on each leg",
+      duration: 30,
     },
     {
       title: "Dancer's Pose (Natarajasana)",
       image: yoga8,
-      duration: "1 minute",
-      time: 60,
+      description: "Hold for 1 minute",
+      duration: 60,
     },
   ];
 
   const [currentYogaIndex, setCurrentYogaIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(yogaSessions[0].time);
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
+  const [timeLeft, setTimeLeft] = useState(yogaSessions[0].duration);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Start the countdown timer
     const timer = setInterval(() => {
       if (timeLeft > 0) {
-        setTimeLeft(timeLeft - 1);
+        setTimeLeft((prev) => prev - 1);
       } else {
-        clearInterval(timer);
-        setShowModal(true); // Show modal when time is up
+        setShowModal(true);
       }
     }, 1000);
 
-    // Clean up the timer on component unmount or yoga session change
     return () => clearInterval(timer);
   }, [timeLeft]);
 
+  const showYoga = (index) => {
+    if (index >= 0 && index < yogaSessions.length) {
+      setCurrentYogaIndex(index);
+      setTimeLeft(yogaSessions[index].duration);
+    }
+  };
+
   const previousYoga = () => {
     if (currentYogaIndex > 0) {
-      setCurrentYogaIndex(currentYogaIndex - 1);
-      setTimeLeft(yogaSessions[currentYogaIndex - 1].time);
-      setShowModal(false); // Hide modal when navigating
+      setShowModal(false);
+      showYoga(currentYogaIndex - 1);
     }
   };
 
   const nextYoga = () => {
     if (currentYogaIndex < yogaSessions.length - 1) {
-      setCurrentYogaIndex(currentYogaIndex + 1);
-      setTimeLeft(yogaSessions[currentYogaIndex + 1].time);
-      setShowModal(false); // Hide modal when navigating
+      setShowModal(false);
+      showYoga(currentYogaIndex + 1);
     }
   };
 
   return (
-    <div className="yogabox flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-300 to-green-900">
-      <div className="yogainnerbox lg:flex-row flex flex-col items-center bg-white m-5 p-8 rounded-xl shadow-lg w-fit gap-4 ">
-        <div>
-          <h2 className="text-2xl text-center font-semibold mb-4">
-            {yogaSessions[currentYogaIndex].title}
-          </h2>
-          <p className="text-lg text-center text-gray-700 mb-2">
-            {yogaSessions[currentYogaIndex].duration}
-          </p>
-          <p className="text-lg text-center text-red-500 mb-4">
-            Time left: {timeLeft} seconds
-          </p>
-          <div className="navigation-buttons mt-32 flex justify-between">
-            <button
-              onClick={previousYoga}
-              className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              Previous
-            </button>
-            <button
-              onClick={nextYoga}
-              className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              Next
-            </button>
-          </div>
-        </div>
+    <div className="yogabox flex items-center justify-center min-h-screen p-4">
+      <div className="yogainnerbox shadow-lg bg-white p-6 rounded-xl w-full max-w-xl flex flex-col items-center">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          {yogaSessions[currentYogaIndex].title}
+        </h2>
         <img
           src={yogaSessions[currentYogaIndex].image}
           alt={yogaSessions[currentYogaIndex].title}
-          className="lg:w-1/2 rounded mb-4 fade-in"
+          className="w-full rounded mb-4 fade-in"
         />
+        <p className="text-lg text-gray-700 mb-2">
+          {yogaSessions[currentYogaIndex].description}
+        </p>
+        <p className="text-lg font-bold text-red-500 mb-4">
+          Time left: {timeLeft}s
+        </p>
+        <div className="navigation-buttons flex justify-between w-full">
+          <button
+            onClick={previousYoga}
+            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600 w-1/2 mx-1"
+          >
+            Previous
+          </button>
+          <button
+            onClick={nextYoga}
+            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600 w-1/2 mx-1"
+          >
+            Next
+          </button>
+        </div>
       </div>
 
-      {/* Modal Dialog */}
+      {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white m-4 p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-xl font-semibold mb-4">Session Ended</h3>
-            <p className="text-gray-700 mb-4">
-              The yoga session has ended. Would you like to continue to the next
-              session?
+        <div className="modal fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+          <div className="modal-content bg-white p-8 rounded-xl shadow-lg text-center">
+            <h3 className="text-xl font-semibold mb-4">
+              {yogaSessions[currentYogaIndex].title} Completed!
+            </h3>
+            <p className="mb-4">
+              Great job! You have completed this session. Ready for the next
+              one?
             </p>
-            <div className="flex justify-end gap-4">
+            <div className="modal-buttons flex justify-center gap-4">
               <button
                 onClick={previousYoga}
                 className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600"
@@ -127,7 +129,7 @@ const Yoga = () => {
               </button>
               <button
                 onClick={nextYoga}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500"
+                className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-600"
               >
                 Next
               </button>
