@@ -1,43 +1,8 @@
 import React, { useState, useEffect } from "react";
-import squatsGif from "../asset/squats.gif";
-import pushUpsGif from "../asset/Push-Ups.gif";
-import plankGif from "../asset/Plank.gif";
-import legRaisesGif from "../asset/Leg Raises.gif";
-import highKneesGif from "../asset/High Knees.gif";
+import { workouts } from "../asset/assets";
 
 const Workout = () => {
-  const workouts = [
-    {
-      title: "Squats",
-      image: squatsGif,
-      description: "Total Reps: 12",
-      duration: 30, // 30 seconds
-    },
-    {
-      title: "Push-Ups",
-      image: pushUpsGif,
-      description: "Total Reps: 15",
-      duration: 45, // 45 seconds
-    },
-    {
-      title: "Plank",
-      image: plankGif,
-      description: "Hold for 30 seconds",
-      duration: 30, // 30 seconds
-    },
-    {
-      title: "Leg Raises",
-      image: legRaisesGif,
-      description: "Total Reps: 12",
-      duration: 40, // 40 seconds
-    },
-    {
-      title: "High Knees",
-      image: highKneesGif,
-      description: "Total Reps: 30 (each leg)",
-      duration: 60, // 60 seconds
-    },
-  ];
+ 
 
   const [currentWorkoutIndex, setCurrentWorkoutIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(workouts[0].duration);

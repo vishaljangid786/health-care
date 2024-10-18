@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { calorieData } from "../asset/assets";
+import { gsap } from "gsap";
 
 const CalorieCalculator = () => {
   const [food, setFood] = useState("");
   const [quantity, setQuantity] = useState("");
   const [totalCalories, setTotalCalories] = useState(null);
-
-
+  const resultRef = useRef(null);
 
   const calculateCalories = () => {
     const caloriesPerUnit = calorieData[food.toLowerCase()] || 0;
@@ -18,8 +18,19 @@ const CalorieCalculator = () => {
     );
   };
 
+  useEffect(() => {
+    if (totalCalories) {
+      // Animate the result when calories are calculated
+      gsap.fromTo(
+        resultRef.current,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5 }
+      );
+    }
+  }, [totalCalories]);
+
   return (
-    <section className="min-h-screen flex items-center justify-center  p-4">
+    <section className="min-h-screen flex items-center justify-center p-4">
       <div className="calorie-section bg-white shadow-xl rounded-xl p-8 w-full max-w-3xl">
         <h2 className="text-4xl font-bold text-green-600 mb-4 text-center">
           Calorie Calculator
@@ -70,7 +81,10 @@ const CalorieCalculator = () => {
           </button>
         </div>
         {totalCalories && (
-          <div className="result text-2xl font-bold text-green-600 mt-6 text-center opacity-100">
+          <div
+            ref={resultRef}
+            className="result text-2xl font-bold text-green-600 mt-6 text-center"
+          >
             {totalCalories}
           </div>
         )}

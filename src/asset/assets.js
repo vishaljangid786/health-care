@@ -1,5 +1,15 @@
 import homepage from "./homepage.png";
 import bot from "./bot.jpg";
+import yoga4 from "./yoga4.gif";
+import yoga5 from "./yoga5.gif";
+import yoga6 from "./yoga6.gif";
+import yoga7 from "./yoga7.gif";
+import yoga8 from "./yoga8.gif";
+import squatsGif from "./squats.gif";
+import pushUpsGif from "./Push-Ups.gif";
+import plankGif from "./Plank.gif";
+import legRaisesGif from "./Leg Raises.gif";
+import highKneesGif from "./High Knees.gif";
 
 const calorieData = {
   // Grains & Breads
@@ -83,6 +93,98 @@ const calorieData = {
   sandwich: 250, // 1 medium sandwich
   biryani: 290, // 1 cup (200g)
 };
+const yogaSessions = [
+  {
+    title: "Cat-Cow Pose (Marjaryasana-Bitilasana)",
+    image: yoga4,
+    description: "Hold for 30 seconds",
+    duration: 30, // Time in seconds
+  },
+  {
+    title: "Knees-to-Chest Pose (Apanasana)",
+    image: yoga5,
+    description: "Hold for 45 seconds",
+    duration: 45,
+  },
+  {
+    title: "Plank Pose (Phalakasana)",
+    image: yoga6,
+    description: "Hold for 30 seconds on each side",
+    duration: 30,
+  },
+  {
+    title: "Plank Pose (Kumbhakasana)",
+    image: yoga7,
+    description: "Hold for 30 seconds on each leg",
+    duration: 30,
+  },
+  {
+    title: "Dancer's Pose (Natarajasana)",
+    image: yoga8,
+    description: "Hold for 1 minute",
+    duration: 60,
+  },
+];
+const tips = [
+  {
+    text: "Eat a balanced diet with fruits, vegetables, and whole grains.",
+    direction: "top",
+  },
+  {
+    text: "Stay hydrated with at least 8 glasses of water daily.",
+    direction: "left",
+  },
+  {
+    text: "Engage in regular exercise, at least 150 minutes per week.",
+    direction: "right",
+  },
+  { text: "Get 7-9 hours of quality sleep each night.", direction: "bottom" },
+  {
+    text: "Manage stress with relaxation techniques like meditation.",
+    direction: "top",
+  },
+  {
+    text: "Avoid harmful habits such as smoking and excessive alcohol.",
+    direction: "left",
+  },
+  { text: "Schedule regular health check-ups.", direction: "right" },
+  {
+    text: "Stay connected with loved ones for emotional well-being.",
+    direction: "bottom",
+  },
+];
 
+const workouts = [
+  {
+    title: "Squats",
+    image: squatsGif,
+    description: "Total Reps: 12",
+    duration: 30, // 30 seconds
+  },
+  {
+    title: "Push-Ups",
+    image: pushUpsGif,
+    description: "Total Reps: 15",
+    duration: 45, // 45 seconds
+  },
+  {
+    title: "Plank",
+    image: plankGif,
+    description: "Hold for 30 seconds",
+    duration: 30, // 30 seconds
+  },
+  {
+    title: "Leg Raises",
+    image: legRaisesGif,
+    description: "Total Reps: 12",
+    duration: 40, // 40 seconds
+  },
+  {
+    title: "High Knees",
+    image: highKneesGif,
+    description: "Total Reps: 30 (each leg)",
+    duration: 60, // 60 seconds
+  },
+];
 
-export { homepage, calorieData ,bot};
+export { homepage, calorieData, yogaSessions, tips, workouts };

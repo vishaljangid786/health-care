@@ -1,47 +1,15 @@
-import React, { useState, useEffect } from "react";
-import yoga4 from "../asset/yoga4.gif";
-import yoga5 from "../asset/yoga5.gif";
-import yoga6 from "../asset/yoga6.gif";
-import yoga7 from "../asset/yoga7.gif";
-import yoga8 from "../asset/yoga8.gif";
+import React, { useState, useEffect, useRef } from "react";
+import gsap from "gsap";
+import { yogaSessions } from "../asset/assets";
 
 const Yoga = () => {
-  const yogaSessions = [
-    {
-      title: "Cat-Cow Pose (Marjaryasana-Bitilasana)",
-      image: yoga4,
-      description: "Hold for 30 seconds",
-      duration: 30, // Time in seconds
-    },
-    {
-      title: "Knees-to-Chest Pose (Apanasana)",
-      image: yoga5,
-      description: "Hold for 45 seconds",
-      duration: 45,
-    },
-    {
-      title: "Plank Pose (Phalakasana)",
-      image: yoga6,
-      description: "Hold for 30 seconds on each side",
-      duration: 30,
-    },
-    {
-      title: "Plank Pose (Kumbhakasana)",
-      image: yoga7,
-      description: "Hold for 30 seconds on each leg",
-      duration: 30,
-    },
-    {
-      title: "Dancer's Pose (Natarajasana)",
-      image: yoga8,
-      description: "Hold for 1 minute",
-      duration: 60,
-    },
-  ];
+  
 
   const [currentYogaIndex, setCurrentYogaIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(yogaSessions[0].duration);
   const [showModal, setShowModal] = useState(false);
+  const yogaRef = useRef(null);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -49,11 +17,24 @@ const Yoga = () => {
         setTimeLeft((prev) => prev - 1);
       } else {
         setShowModal(true);
+        gsap.fromTo(
+          modalRef.current,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, ease: "power3.out" }
+        );
       }
     }, 1000);
 
     return () => clearInterval(timer);
   }, [timeLeft]);
+
+  useEffect(() => {
+    gsap.fromTo(
+      yogaRef.current,
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+    );
+  }, [currentYogaIndex]);
 
   const showYoga = (index) => {
     if (index >= 0 && index < yogaSessions.length) {
@@ -78,14 +59,17 @@ const Yoga = () => {
 
   return (
     <div className="yogabox flex items-center justify-center min-h-screen p-4">
-      <div className="yogainnerbox shadow-lg bg-white p-6 rounded-xl w-full max-w-xl flex flex-col items-center">
+      <div
+        className="yogainnerbox shadow-lg bg-white p-6 rounded-xl w-full max-w-xl flex flex-col items-center"
+        ref={yogaRef}
+      >
         <h2 className="text-2xl font-semibold mb-4 text-center">
           {yogaSessions[currentYogaIndex].title}
         </h2>
         <img
           src={yogaSessions[currentYogaIndex].image}
           alt={yogaSessions[currentYogaIndex].title}
-          className="w-full rounded mb-4 fade-in"
+          className="w-full rounded mb-4"
         />
         <p className="text-lg text-gray-700 mb-2">
           {yogaSessions[currentYogaIndex].description}
@@ -111,7 +95,10 @@ const Yoga = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className="modal fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+        <div
+          className="modal fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center"
+          ref={modalRef}
+        >
           <div className="modal-content bg-white p-8 rounded-xl shadow-lg text-center">
             <h3 className="text-xl font-semibold mb-4">
               {yogaSessions[currentYogaIndex].title} Completed!

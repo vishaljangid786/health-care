@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 const BMICalculator = () => {
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [bmi, setBMI] = useState(null);
+  const resultRef = useRef(null);
 
   const calculateBMI = () => {
     const weightValue = parseFloat(weight);
@@ -19,8 +21,19 @@ const BMICalculator = () => {
     }
   };
 
+  useEffect(() => {
+    if (bmi !== null) {
+      // Animate the result when BMI is calculated
+      gsap.fromTo(
+        resultRef.current,
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.5 }
+      );
+    }
+  }, [bmi]);
+
   return (
-    <section className=" h-screen flex justify-center items-center ">
+    <section className="h-screen flex justify-center items-center">
       <div className="bg-white p-8 sm:m-0 m-3 rounded-xl shadow-lg w-full max-w-xl text-center">
         <h2 className="text-3xl font-semibold text-green-800 mb-4">
           BMI Calculator
@@ -74,7 +87,10 @@ const BMICalculator = () => {
         </form>
 
         {bmi && (
-          <div className="mt-6 text-2xl font-semibold text-green-800">
+          <div
+            ref={resultRef}
+            className="mt-6 text-2xl font-semibold text-green-800"
+          >
             Your BMI is: {bmi}
           </div>
         )}
